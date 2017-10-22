@@ -1,7 +1,17 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Matheus
- * Date: 21/10/2017
- * Time: 18:43
- */
+@extends('layouts.app')
+
+@section('title', 'Imóveis')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <list-properties></list-properties>
+            {{--
+            <passport-clients></passport-clients>
+            <passport-authorized-clients></passport-authorized-clients>
+            <passport-personal-access-tokens></passport-personal-access-tokens>
+            --}}
+        </div>
+    </div>
+@endsection

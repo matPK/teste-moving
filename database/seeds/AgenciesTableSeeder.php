@@ -6,11 +6,11 @@ class AgenciesTableSeeder extends Seeder
 {
     private $agencies = [
         [
-            'name' => 'Imobiliária Alice',
+            'name' => 'Alice Imóveis',
             'description' => 'Esta é a imobiliária da Alice',
         ],
         [
-            'name' => 'Imobiliária Bob',
+            'name' => 'Imobiliária do Bob',
             'description' => 'Esta é a imobiliária do Bob',
         ]
     ];

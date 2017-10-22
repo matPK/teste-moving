@@ -17,11 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 */
-Route::get('/users', 'UserController@all')->name('users.all');
-Route::resource('users', 'UserController', ['except' => ['index', 'create', 'edit']]);
-
-Route::get('/agencies', 'AgencyController@all')->name('agencies.all');
-Route::resource('agencies', 'AgencyController', ['except' => ['index', 'create', 'edit']]);
-
-Route::get('/properties', 'PropertyController@all')->name('properties.all');
-Route::resource('properties', 'PropertyController', ['except' => ['index', 'create', 'edit']]);
+Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
+Route::resource('agencies', 'AgencyController', ['except' => ['create', 'edit']]);
+Route::resource('properties', 'PropertyController', ['except' => ['create', 'edit']]);

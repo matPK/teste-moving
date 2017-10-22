@@ -14,7 +14,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+        return Property::all();
     }
 
     /**
@@ -46,7 +46,7 @@ class PropertyController extends Controller
      */
     public function show(Property $property)
     {
-        //
+        return $property;
     }
 
     /**

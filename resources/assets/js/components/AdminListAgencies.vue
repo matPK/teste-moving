@@ -9,27 +9,21 @@
 </style>
 
 <template>
-    <div v-if="properties.length > 0">
-        <div v-for="property in properties" class="col-xs-6 col-md-4">
-            <div class="panel panel-default card">
-                <div class="panel-heading text-center">
-                    {{ property.description }}
-                </div>
-                <div class="panel-body">
-                    <img src="http://s2.glbimg.com/QWNxtZSOaTbBY7HmJbzeoUDwlEU=/s.glbimg.com/jo/g1/f/original/2017/06/13/matjunho_2.jpg"
-                         alt="imagem"
-                         width="100%"
-                    >
-                </div>
-                <div class="panel-footer">
-                    <a v-bind:href="property.url" class="btn btn-primary btn-block">
-                        <i class="fa fa-plus"></i>
-                        Detalhes
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <table class="table">
+        <tbody>
+            <tr v-for="agency in agencies">
+                <td>
+                    {{agency.name}}
+                </td>
+                <td class="text-right">
+                    <a v-bind:href="agency.edit_url" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                    <a class="btn btn-danger btn-xs"><i class="fa fa-trash" v-on:click="deleteAgency(agency)"></i></a>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </template>
 
 <script>
@@ -39,7 +33,7 @@
          */
         data() {
             return {
-                properties: []
+                agencies: []
             };
         },
 
@@ -62,21 +56,45 @@
              * Prepare the component (Vue 2.x).
              */
             prepareComponent() {
-                this.getProperties();
+                this.getAgencies();
             },
 
             /**
              * Get all of the authorized tokens for the user.
              */
-            getProperties() {
-                axios.get('/api/properties')
+            getAgencies() {
+                axios.get('/api/agencies')
                     .then(response => {
-                        let properties = response.data;
-                        for(var i in properties){
-                            properties[i].url = "/imoveis/" + properties[i].id;
+                        let agencies = response.data;
+                        for(let i in agencies){
+                            let agency = agencies[i];
+                            agency.url = "/api/agencies/"+agency.id;
+                            agency.edit_url = agency.url + "/editar";
                         }
-                        this.properties = properties;
+                        this.agencies = agencies;
                     });
+            },
+
+            /**
+             * Delete a Agency
+             */
+            deleteAgency(agency) {
+                axios.delete('/api/agencies/' + agency.id)
+                    .then(response => {
+                        if(response.status === 204){
+                            this.popFromAgency(agency.id);
+                        }else{
+                            alert("Algo deu errado");
+                        }
+                    });
+            },
+            popFromAgency(id){
+                for(let i in this.agencies){
+                    let agency = this.agencies[i];
+                    if(agency.id === id){
+                        this.agencies.pop(i);
+                    }
+                }
             }
         }
     }

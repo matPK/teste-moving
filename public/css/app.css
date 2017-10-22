@@ -8371,7 +8371,7 @@ html {
   min-height: 100%;
 }
 
-.footer {
+#footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -8381,15 +8381,26 @@ html {
   line-height: 90px;
 }
 
-.footer i {
+#footer i {
   font-size: 24px;
   color: #efefef !important;
 }
 
+.home-section-h {
+  color: whitesmoke;
+}
+
+#app {
+  overflow-x: hidden;
+}
+
+.text-bordered {
+  text-shadow: 1px 0px 0px black, -1px 0px 0px black, 0px 1px 0px black, 0px -1px 0px black;
+  font-size: 200%;
+  font-weight: bold;
+}
+
 .card {
-  width: 100%;
-  background-color: #fafafa;
-  border: 1px solid #eaeaea;
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
 }

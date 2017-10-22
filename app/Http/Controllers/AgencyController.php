@@ -14,7 +14,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        //
+        return Agency::all();
     }
 
     /**
@@ -46,7 +46,7 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
-        //
+        return $agency;
     }
 
     /**
@@ -80,6 +80,7 @@ class AgencyController extends Controller
      */
     public function destroy(Agency $agency)
     {
-        //
+        $agency->delete();
+        return response(null, 204);
     }
 }

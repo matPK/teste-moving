@@ -5,13 +5,22 @@
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-
-            <list-properties></list-properties>
-            {{--
-            <passport-clients></passport-clients>
-            <passport-authorized-clients></passport-authorized-clients>
-            <passport-personal-access-tokens></passport-personal-access-tokens>
-            --}}
+            <div class="panel panel-default card">
+                <div class="panel-heading">
+                    {{$property->description}}
+                </div>
+                <div class="panel-body">
+                    <div>
+                        Tipo: {{$property->type}}
+                    </div>
+                    <div>
+                        Endereço: {{$property->address}}
+                    </div>
+                    <div>
+                        Agência: {{$property->agency->name}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

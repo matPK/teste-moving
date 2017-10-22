@@ -10,7 +10,7 @@
 
 <template>
     <div v-if="properties.length > 0">
-        <div v-for="property in properties" class="col-xs-6 col-sm-4 col-lg-3">
+        <div v-for="property in properties" class="col-xs-6 col-md-4">
             <div class="panel panel-default card">
                 <div class="panel-heading text-center">
                     {{ property.description }}
