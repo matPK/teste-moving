@@ -114,22 +114,22 @@
                     <div class="modal-body">
                         <form id="createForm">
                             <div class="form-group">
-                                <label for="edit_description">Descrição</label>
+                                <label for="create_description">Descrição</label>
                                 <input v-model="createForm.description" id="create_description" name="description" class="form-control" autofocus>
                             </div>
                             <div class="form-group">
-                                <label for="edit_address">Endereço</label>
+                                <label for="create_address">Endereço</label>
                                 <input v-model="createForm.address" id="create_address" name="address" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="edit_type">Tipo</label>
+                                <label for="create_type">Tipo</label>
                                 <select v-model="createForm.type" id="create_type" name="type" class="form-control">
                                     <option value="Casa">Casa</option>
                                     <option value="Apartamento">Apartamento</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="edit_type">Agência</label>
+                                <label for="create_agency_id">Agência</label>
                                 <select v-model="createForm.agency_id" id="create_agency_id" name="agency_id" class="form-control">
                                     <option v-for="agency in agencies" :value="agency.id">{{agency.name}}</option>
                                 </select>

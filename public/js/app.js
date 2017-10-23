@@ -1375,7 +1375,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(68);
+module.exports = __webpack_require__(78);
 
 
 /***/ }),
@@ -1405,8 +1405,8 @@ Vue.component('passport-authorized-clients', __webpack_require__(50));
 Vue.component('passport-personal-access-tokens', __webpack_require__(55));
 Vue.component('list-properties', __webpack_require__(60));
 Vue.component('featured-ads', __webpack_require__(65));
-Vue.component('admin-list-agencies', __webpack_require__(77));
-Vue.component('admin-list-properties', __webpack_require__(82));
+Vue.component('admin-list-agencies', __webpack_require__(68));
+Vue.component('admin-list-properties', __webpack_require__(73));
 var app = new Vue({
     el: '#app'
 });
@@ -45661,32 +45661,18 @@ if (false) {
 
 /***/ }),
 /* 68 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(78)
+  __webpack_require__(69)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(80)
+var __vue_script__ = __webpack_require__(71)
 /* template */
-var __vue_template__ = __webpack_require__(81)
+var __vue_template__ = __webpack_require__(72)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -45726,13 +45712,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 78 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(79);
+var content = __webpack_require__(70);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -45752,7 +45738,7 @@ if(false) {
 }
 
 /***/ }),
-/* 79 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -45766,7 +45752,7 @@ exports.push([module.i, "\n.action-link[data-v-07840e17] {\n    cursor: pointer;
 
 
 /***/ }),
-/* 80 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46002,7 +45988,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 81 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -46398,19 +46384,19 @@ if (false) {
 }
 
 /***/ }),
-/* 82 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(83)
+  __webpack_require__(74)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(85)
+var __vue_script__ = __webpack_require__(76)
 /* template */
-var __vue_template__ = __webpack_require__(86)
+var __vue_template__ = __webpack_require__(77)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -46450,13 +46436,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 83 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(84);
+var content = __webpack_require__(75);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -46476,7 +46462,7 @@ if(false) {
 }
 
 /***/ }),
-/* 84 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);
@@ -46490,7 +46476,7 @@ exports.push([module.i, "\n.action-link[data-v-aa5d8632] {\n    cursor: pointer;
 
 
 /***/ }),
-/* 85 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -46766,7 +46752,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 86 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47087,7 +47073,7 @@ var render = function() {
             _c("div", { staticClass: "modal-body" }, [
               _c("form", { attrs: { id: "createForm" } }, [
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "edit_description" } }, [
+                  _c("label", { attrs: { for: "create_description" } }, [
                     _vm._v("Descrição")
                   ]),
                   _vm._v(" "),
@@ -47123,7 +47109,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "edit_address" } }, [
+                  _c("label", { attrs: { for: "create_address" } }, [
                     _vm._v("Endereço")
                   ]),
                   _vm._v(" "),
@@ -47151,7 +47137,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "edit_type" } }, [
+                  _c("label", { attrs: { for: "create_type" } }, [
                     _vm._v("Tipo")
                   ]),
                   _vm._v(" "),
@@ -47201,7 +47187,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c("label", { attrs: { for: "edit_type" } }, [
+                  _c("label", { attrs: { for: "create_agency_id" } }, [
                     _vm._v("Agência")
                   ]),
                   _vm._v(" "),
@@ -47360,6 +47346,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-aa5d8632", module.exports)
   }
 }
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
