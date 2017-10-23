@@ -1,7 +1,7 @@
 # Teste para Moving
 Repositório para o projeto de teste da Moving Móveis
 
-##Instruções
+## Instruções
 Copie ou clone este projeto
 
     git clone https://github.com/matPK/teste-moving.git
@@ -41,5 +41,5 @@ Usuário administrador:
     Conta: admin@admin.com.br
     Senha: 123456
     
-###Autoria
+## Autoria
 Desenvolvido por ``Matheus Adorni Dardenne``.

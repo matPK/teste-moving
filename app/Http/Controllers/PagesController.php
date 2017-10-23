@@ -13,22 +13,6 @@ class PagesController extends Controller
         return view('welcome');
     }
 
-    public function indexUsers()
-    {
-
-    }
-    public function getUser()
-    {
-
-    }
-    public function createUser()
-    {
-
-    }
-    public function editUser()
-    {
-
-    }
     public function indexProperties()
     {
         return view('properties.index');
@@ -41,13 +25,5 @@ class PagesController extends Controller
         }else{
             return abort(404);
         }
-    }
-    public function createProperty()
-    {
-        dd("teste");
-    }
-    public function editProperty()
-    {
-
     }
 }
