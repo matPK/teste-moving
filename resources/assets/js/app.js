@@ -43,6 +43,10 @@ Vue.component(
     'admin-list-agencies',
     require('./components/AdminListAgencies.vue')
 );
+Vue.component(
+    'admin-list-properties',
+    require('./components/AdminListProperties.vue')
+);
 const app = new Vue({
     el: '#app'
 });

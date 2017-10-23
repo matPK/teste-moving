@@ -12,8 +12,7 @@
                         <fieldset>
                             <legend class="text-center">Imóveis</legend>
                             <div class="panel-body">
-                                <a href="{{route('admin.properties.index')}}" class="btn btn-info btn-block">Ver Todos</a>
-                                <a href="{{route('admin.properties.create')}}" class="btn btn-primary btn-block">Criar Novo</a>
+                                <a href="{{route('admin.properties')}}" class="btn btn-info btn-block">Ver Todos</a>
                             </div>
                         </fieldset>
                     </div>
@@ -23,8 +22,7 @@
                         <fieldset>
                             <legend class="text-center">Agências</legend>
                             <div class="panel-body">
-                                <a href="{{route('admin.agencies.index')}}" class="btn btn-info btn-block">Ver Todas</a>
-                                <a href="{{route('admin.agencies.create')}}" class="btn btn-primary btn-block">Criar Nova</a>
+                                <a href="{{route('admin.agencies')}}" class="btn btn-info btn-block">Ver Todas</a>
                             </div>
                         </fieldset>
                     </div>

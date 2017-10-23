@@ -51,17 +51,15 @@
                             </div>
                         </div>
 --}}
-                        <div class="form-group">
-                            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-                                <button type="submit" class="btn btn-default btn-block">
-                                    Entrar
-                                </button>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">
+                                Entrar
+                            </button>
 {{--
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                Forgot Your Password?
+                            </a>
 --}}
-                            </div>
                         </div>
                     </form>
                 </div>

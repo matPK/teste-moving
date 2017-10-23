@@ -1406,6 +1406,7 @@ Vue.component('passport-personal-access-tokens', __webpack_require__(55));
 Vue.component('list-properties', __webpack_require__(60));
 Vue.component('featured-ads', __webpack_require__(65));
 Vue.component('admin-list-agencies', __webpack_require__(77));
+Vue.component('admin-list-properties', __webpack_require__(82));
 var app = new Vue({
     el: '#app'
 });
@@ -45798,6 +45799,100 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     /*
@@ -45805,7 +45900,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
      */
     data: function data() {
         return {
-            agencies: []
+            agencies: [],
+            deleteId: 0,
+            editForm: {
+                name: '',
+                description: ''
+            },
+            createForm: {
+                name: '',
+                description: ''
+            }
         };
     },
 
@@ -45842,13 +45946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.get('/api/agencies').then(function (response) {
-                var agencies = response.data;
-                for (var i in agencies) {
-                    var agency = agencies[i];
-                    agency.url = "/api/agencies/" + agency.id;
-                    agency.edit_url = agency.url + "/editar";
-                }
-                _this.agencies = agencies;
+                _this.agencies = response.data;
             });
         },
 
@@ -45856,14 +45954,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         /**
          * Delete a Agency
          */
-        deleteAgency: function deleteAgency(agency) {
+        deleteAgency: function deleteAgency(id) {
             var _this2 = this;
 
-            axios.delete('/api/agencies/' + agency.id).then(function (response) {
+            axios.delete('/api/agencies/' + id).then(function (response) {
                 if (response.status === 204) {
-                    _this2.popFromAgency(agency.id);
-                } else {
-                    alert("Algo deu errado");
+                    _this2.popFromAgency(id);
                 }
             });
         },
@@ -45871,9 +45967,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             for (var i in this.agencies) {
                 var agency = this.agencies[i];
                 if (agency.id === id) {
-                    this.agencies.pop(i);
+                    this.agencies.splice(i, 1);
                 }
             }
+        },
+        editAgency: function editAgency() {
+            var _this3 = this;
+
+            var data = this.editForm;
+            axios.put('/api/agencies/' + this.editForm.id, data).then(function (response) {
+                for (var i in _this3.agencies) {
+                    if (_this3.agencies[i].id === _this3.editForm.id) {
+                        _this3.agencies[i].name = response.data.name;
+                        _this3.agencies[i].description = response.data.description;
+                    }
+                }
+            });
+        },
+        createAgency: function createAgency() {
+            var _this4 = this;
+
+            var data = this.createForm;
+            axios.post('/api/agencies', data).then(function (response) {
+                if (response.status === 201) {
+                    _this4.agencies.push(response.data);
+                } else if (response.status === 422) {
+                    console.log(response.data);
+                }
+                _this4.createForm.name = null;
+                _this4.createForm.description = null;
+            });
         }
     }
 });
@@ -45886,50 +46009,1355 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("table", { staticClass: "table" }, [
-    _c(
-      "tbody",
-      _vm._l(_vm.agencies, function(agency) {
-        return _c("tr", [
-          _c("td", [
-            _vm._v(
-              "\n                " + _vm._s(agency.name) + "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("td", { staticClass: "text-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-info btn-xs",
-                attrs: { href: agency.edit_url }
-              },
-              [_c("i", { staticClass: "fa fa-pencil" })]
-            ),
+  return _c("div", [
+    _c("table", { staticClass: "table" }, [
+      _c(
+        "tbody",
+        _vm._l(_vm.agencies, function(agency) {
+          return _c("tr", [
+            _c("td", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(agency.name) +
+                  "\n                "
+              )
+            ]),
             _vm._v(" "),
-            _c("a", { staticClass: "btn btn-danger btn-xs" }, [
-              _c("i", {
-                staticClass: "fa fa-trash",
-                on: {
-                  click: function($event) {
-                    _vm.deleteAgency(agency)
+            _c("td", { staticClass: "text-right" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-info btn-xs",
+                  attrs: {
+                    "data-toggle": "modal",
+                    "data-target": "#editModal"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.editForm = agency
+                    }
                   }
-                }
-              })
+                },
+                [_c("i", { staticClass: "fa fa-pencil" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger btn-xs",
+                  attrs: {
+                    "data-toggle": "modal",
+                    "data-target": "#confirmDelete"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.deleteId = agency.id
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-trash" })]
+              )
+            ])
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "confirmDelete", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("p", [_vm._v("Após concluir esta ação, ela é irreversível!")]),
+              _vm._v(" "),
+              _c("p", [_vm._v("Tem certeza que deseja prosseguir?")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.deleteAgency(_vm.deleteId)
+                      }
+                    }
+                  },
+                  [_vm._v("Sim")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancelar")]
+                )
+              ])
             ])
           ])
         ])
-      })
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "editModal", role: "form" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("form", { attrs: { id: "editForm" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_name" } }, [
+                    _vm._v("Nome")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editForm.name,
+                        expression: "editForm.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "edit_name", name: "name", autofocus: "" },
+                    domProps: { value: _vm.editForm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editForm, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_name" } }, [
+                    _vm._v("Descrição")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editForm.description,
+                        expression: "editForm.description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "edit_description", name: "description" },
+                    domProps: { value: _vm.editForm.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.editForm,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: {
+                        click: function($event) {
+                          _vm.editAgency()
+                        }
+                      }
+                    },
+                    [_vm._v("Salvar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "createModal", role: "form" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("form", { attrs: { id: "createForm" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "create_name" } }, [
+                    _vm._v("Nome")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.createForm.name,
+                        expression: "createForm.name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "create_name", name: "name", autofocus: "" },
+                    domProps: { value: _vm.createForm.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.createForm, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "create_description" } }, [
+                    _vm._v("Descrição")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.createForm.description,
+                        expression: "createForm.description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "create_description", name: "description" },
+                    domProps: { value: _vm.createForm.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.createForm,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: {
+                        click: function($event) {
+                          _vm.createAgency()
+                        }
+                      }
+                    },
+                    [_vm._v("Criar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-footer text-center" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { "data-toggle": "modal", "data-target": "#createModal" }
+        },
+        [_vm._v("Criar Nova")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-danger text-center" }, [
+        _vm._v("Atenção")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-success text-center" }, [
+        _vm._v("Editar")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-success text-center" }, [
+        _vm._v("Novo")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-07840e17", module.exports)
+  }
+}
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(83)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(85)
+/* template */
+var __vue_template__ = __webpack_require__(86)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-aa5d8632"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AdminListProperties.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-aa5d8632", Component.options)
+  } else {
+    hotAPI.reload("data-v-aa5d8632", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(84);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("be5b47c2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aa5d8632\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./AdminListProperties.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-aa5d8632\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./AdminListProperties.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.action-link[data-v-aa5d8632] {\n    cursor: pointer;\n}\n.m-b-none[data-v-aa5d8632] {\n    margin-bottom: 0;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    /*
+     * The component's data.
+     */
+    data: function data() {
+        return {
+            properties: [],
+            agencies: [],
+            deleteId: 0,
+            editForm: {
+                description: '',
+                address: '',
+                type: '',
+                agency_id: 0
+            },
+            createForm: {
+                name: '',
+                description: ''
+            }
+        };
+    },
+
+
+    /**
+     * Prepare the component (Vue 1.x).
+     */
+    ready: function ready() {
+        this.prepareComponent();
+    },
+
+
+    /**
+     * Prepare the component (Vue 2.x).
+     */
+    mounted: function mounted() {
+        this.prepareComponent();
+    },
+
+
+    methods: {
+        /**
+         * Prepare the component (Vue 2.x).
+         */
+        prepareComponent: function prepareComponent() {
+            this.getProperties();
+            this.getAgencies();
+        },
+
+
+        /**
+         * Get all of the authorized tokens for the user.
+         */
+        getProperties: function getProperties() {
+            var _this = this;
+
+            axios.get('/api/properties').then(function (response) {
+                _this.properties = response.data;
+            });
+        },
+        getAgencies: function getAgencies() {
+            var _this2 = this;
+
+            axios.get('/api/agencies').then(function (response) {
+                _this2.agencies = response.data;
+            });
+        },
+
+        /**
+         * Delete a Property
+         */
+        deleteProperty: function deleteProperty(id) {
+            var _this3 = this;
+
+            axios.delete('/api/properties/' + id).then(function (response) {
+                if (response.status === 204) {
+                    _this3.popFromProperty(id);
+                }
+            });
+        },
+        popFromProperty: function popFromProperty(id) {
+            for (var i in this.properties) {
+                var property = this.properties[i];
+                if (property.id === id) {
+                    this.properties.splice(i, 1);
+                }
+            }
+        },
+        editProperty: function editProperty() {
+            var _this4 = this;
+
+            var data = this.editForm;
+            axios.put('/api/properties/' + this.editForm.id, data).then(function (response) {
+                for (var i in _this4.properties) {
+                    if (_this4.properties[i].id === _this4.editForm.id) {
+                        _this4.properties[i].name = response.data.name;
+                        _this4.properties[i].description = response.data.description;
+                    }
+                }
+            });
+        },
+        createProperty: function createProperty() {
+            var _this5 = this;
+
+            var data = this.createForm;
+            axios.post('/api/properties', data).then(function (response) {
+                if (response.status === 201) {
+                    _this5.properties.push(response.data);
+                } else if (response.status === 422) {
+                    console.log(response.data);
+                }
+                _this5.createForm.description = null;
+                _this5.createForm.address = null;
+                _this5.createForm.type = null;
+                _this5.createForm.agency_id = null;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("table", { staticClass: "table" }, [
+      _c(
+        "tbody",
+        _vm._l(_vm.properties, function(property) {
+          return _c("tr", [
+            _c("td", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(property.description) +
+                  "\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", { staticClass: "text-right" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-info btn-xs",
+                  attrs: {
+                    "data-toggle": "modal",
+                    "data-target": "#editModal"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.editForm = property
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-pencil" })]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-danger btn-xs",
+                  attrs: {
+                    "data-toggle": "modal",
+                    "data-target": "#confirmDelete"
+                  },
+                  on: {
+                    click: function($event) {
+                      _vm.deleteId = property.id
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-trash" })]
+              )
+            ])
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "confirmDelete", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("p", [_vm._v("Após concluir esta ação, ela é irreversível!")]),
+              _vm._v(" "),
+              _c("p", [_vm._v("Tem certeza que deseja prosseguir?")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.deleteProperty(_vm.deleteId)
+                      }
+                    }
+                  },
+                  [_vm._v("Sim")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cancelar")]
+                )
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "editModal", role: "form" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("form", { attrs: { id: "editForm" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_description" } }, [
+                    _vm._v("Descrição")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editForm.description,
+                        expression: "editForm.description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      id: "edit_description",
+                      name: "description",
+                      autofocus: ""
+                    },
+                    domProps: { value: _vm.editForm.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.editForm,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_address" } }, [
+                    _vm._v("Endereço")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.editForm.address,
+                        expression: "editForm.address"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "edit_address", name: "address" },
+                    domProps: { value: _vm.editForm.address },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.editForm, "address", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_type" } }, [
+                    _vm._v("Tipo")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.type,
+                          expression: "editForm.type"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "edit_type", name: "type" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editForm,
+                            "type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Casa" } }, [
+                        _vm._v("Casa")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Apartamento" } }, [
+                        _vm._v("Apartamento")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_type" } }, [
+                    _vm._v("Agência")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.editForm.agency_id,
+                          expression: "editForm.agency_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "edit_agency_id", name: "agency_id" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.editForm,
+                            "agency_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.agencies, function(agency) {
+                      return _c("option", { domProps: { value: agency.id } }, [
+                        _vm._v(_vm._s(agency.name))
+                      ])
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: {
+                        click: function($event) {
+                          _vm.editProperty()
+                        }
+                      }
+                    },
+                    [_vm._v("Salvar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "modal fade", attrs: { id: "createModal", role: "form" } },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("form", { attrs: { id: "createForm" } }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_description" } }, [
+                    _vm._v("Descrição")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.createForm.description,
+                        expression: "createForm.description"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      id: "create_description",
+                      name: "description",
+                      autofocus: ""
+                    },
+                    domProps: { value: _vm.createForm.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.createForm,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_address" } }, [
+                    _vm._v("Endereço")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.createForm.address,
+                        expression: "createForm.address"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { id: "create_address", name: "address" },
+                    domProps: { value: _vm.createForm.address },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.createForm, "address", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_type" } }, [
+                    _vm._v("Tipo")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.type,
+                          expression: "createForm.type"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "create_type", name: "type" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.createForm,
+                            "type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "Casa" } }, [
+                        _vm._v("Casa")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Apartamento" } }, [
+                        _vm._v("Apartamento")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "edit_type" } }, [
+                    _vm._v("Agência")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.createForm.agency_id,
+                          expression: "createForm.agency_id"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { id: "create_agency_id", name: "agency_id" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.createForm,
+                            "agency_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    _vm._l(_vm.agencies, function(agency) {
+                      return _c("option", { domProps: { value: agency.id } }, [
+                        _vm._v(_vm._s(agency.name))
+                      ])
+                    })
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "text-right" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button", "data-dismiss": "modal" },
+                      on: {
+                        click: function($event) {
+                          _vm.createProperty()
+                        }
+                      }
+                    },
+                    [_vm._v("Criar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-default",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-footer text-center" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { "data-toggle": "modal", "data-target": "#createModal" }
+        },
+        [_vm._v("Criar Novo")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-danger text-center" }, [
+        _vm._v("Atenção")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-success text-center" }, [
+        _vm._v("Editar")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      ),
+      _vm._v(" "),
+      _c("h4", { staticClass: "modal-title text-success text-center" }, [
+        _vm._v("Novo")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-aa5d8632", module.exports)
   }
 }
 

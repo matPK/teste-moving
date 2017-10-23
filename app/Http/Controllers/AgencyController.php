@@ -18,16 +18,6 @@ class AgencyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +25,16 @@ class AgencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:2000',
+        ]);
+        $agency = new Agency;
+        $agency->name = $request->get('name');
+        $agency->description = $request->get('description');
+        $agency->save();
+
+        return response($agency, 201);
     }
 
     /**
@@ -50,26 +49,23 @@ class AgencyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Agency  $agency
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Agency $agency)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Agency  $agency
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Agency $agency)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:2000',
+        ]);
+        $agency = Agency::find($id);
+        $agency->name = $request->get('name');
+        $agency->description = $request->get('description');
+        $agency->save();
+        return $agency;
     }
 
     /**

@@ -36,7 +36,9 @@
             <ul class="nav navbar-nav navbar-right">
             <!-- Authentication Links -->
             @guest
-
+                    <li class="{{Request::is('login')?'active':''}}">
+                    <a href="{{route('login')}}">Faça Login</a>
+                </li>
             @else
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -44,8 +46,14 @@
                     </a>
 
                     <ul class="dropdown-menu" role="menu">
-                        <li>
+                        <li class="{{Request::is('admin')?'active':''}}">
                             <a href="{{route('admin.index')}}">Área Administrativa</a>
+                        </li>
+                        <li class="{{Request::is('admin/agencias')?'active':''}}">
+                            <a href="{{route('admin.agencies')}}">Agências</a>
+                        </li>
+                        <li class="{{Request::is('admin/imoveis')?'active':''}}">
+                            <a href="{{route('admin.properties')}}">Imóveis</a>
                         </li>
                         <li>
                             <a href="{{route('logout')}}"
